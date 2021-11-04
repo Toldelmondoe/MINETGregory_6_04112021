@@ -1,0 +1,3 @@
+process.env.LOGIN = login Database
+process.env.PASSWORD = password Database
+process.env.URL = URL Database
