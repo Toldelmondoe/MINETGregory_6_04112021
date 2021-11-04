@@ -1,7 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const app = express();
 const mongoose = require('mongoose');
+
+const Sauce = require('./models/Sauce');
 
 mongoose.connect('mongodb+srv://Toldelmondoe:23ca07ro02@cluster0.87c5t.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
   { useNewUrlParser: true,
@@ -9,6 +10,8 @@ mongoose.connect('mongodb+srv://Toldelmondoe:23ca07ro02@cluster0.87c5t.mongodb.n
   .then(() => console.log('Connexion à MongoDB réussie !'))
   .catch(() => console.log('Connexion à MongoDB échouée !'))
 ;
+
+const app = express();
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*'); // header permettant d'accéder à mon API depuis n'importe quelle origine ( '*' )
@@ -20,10 +23,13 @@ app.use((req, res, next) => {
 app.use(bodyParser.json());
 
 app.post('/api/sauces', (req, res, next) => {
-    console.log(req.body);
-    res.status(201).json({
-        message: 'Objet créé !'
+    delete req.body._id;
+    const sauce = new Sauce({
+        ...req.body
     });
+    sauce.save()
+        .then(() => res.status(201).json({ message: 'Sauce enregistrée !'}))
+        .catch(error => res.status(400).json({ error }));
 });
 
 app.use('/api/sauces', (req, res, next) => {
