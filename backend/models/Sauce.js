@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const sauceSchema = mongoose.Schema({  // On génère un shema mongoose pour notre sauce
+const sauceSchema = mongoose.Schema({  // un shema mongoose est généré pour une sauce
     userId: { type: String, required: true },
     name: { type: String, required: true },
     manufacturer: { type: String, required: true },
