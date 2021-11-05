@@ -65,12 +65,12 @@ exports.likeSauce = (req, res, next) => { // fonction qui permet aux utilisateur
     } else { // option un-likes / un-dislikes
         Sauce.findOne( { _id: req.params.id })
         .then( sauce => {
-            if( sauce.usersLiked.indexOf(req.body.userId)!== -1){
+            if( sauce.usersLiked.indexOf(req.body.userId)!== -1){ // option un-likes
                  Sauce.updateOne({ _id: req.params.id }, { $inc: { likes: -1 },$pull: { usersLiked: req.body.userId }, _id: req.params.id })
                 .then( () => res.status(200).json({ message: 'Vous n\'aimez `plus cette sauce !' }))
                 .catch( error => res.status(400).json({ error }))
                 }
-            else if( sauce.usersDisliked.indexOf(req.body.userId)!== -1) {
+            else if( sauce.usersDisliked.indexOf(req.body.userId)!== -1) { // option un-dislikes
                 Sauce.updateOne( { _id: req.params.id }, { $inc: { dislikes: -1 }, $pull: { usersDisliked: req.body.userId }, _id: req.params.id })
                 .then( () => res.status(200).json({ message: 'Désormais vous aimez cette sauce !' }))
                 .catch( error => res.status(400).json({ error }))
