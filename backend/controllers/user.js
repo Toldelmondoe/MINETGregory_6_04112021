@@ -21,7 +21,7 @@ passwordSchema
 
 exports.signup = (req, res, next) => { // fonction qui permet aux utilisateurs d'enregistrer un compte
     if (!emailValidator.validate(req.body.email) || !passwordSchema.validate(req.body.password)) { // si l'email et le mot de passe ne sont pas valides alors une erreur est retournée
-        return res.status(400).json({ message: 'Vérifiez le format de votre adresse e-mail et votre mot de passe doit comporter au moins 8 caractères, contenir des majuscules, des lettres minuscules et des chiffres.'});
+        return res.status(400).json({ message: 'Vérifiez le format de votre adresse e-mail et votre mot de passe doit comporter au moins 8 caractères, contenir des majuscules, des lettres minuscules et des chiffres.' });
       
     }   else if (emailValidator.validate(req.body.email) || passwordSchema.validate(req.body.password)) { // si l'email et le mot de passe sont valide alors :
             const maskedMail = MaskData.maskEmail2(req.body.email); // masquage de l'adresse mail
@@ -32,7 +32,7 @@ exports.signup = (req, res, next) => { // fonction qui permet aux utilisateurs d
                     password: hash
                 });
                 user.save() // sauvegarde de ces informations sur la base de données
-                .then( hash => res.status(201).json({ message: 'Utilisateur créé !'}))
+                .then( hash => res.status(201).json({ message: 'Utilisateur créé !' }))
                 .catch(error => res.status(400).json({ error }))
             })
             .catch(error => res.status(500).json({ error }))
@@ -55,9 +55,9 @@ exports.login = (req, res, next) => { // fonction qui permet aux utilisateurs de
                     res.status(200).json({ // si l'email et enfin le mot de passe correspondent, alors l'utilisateur est connecté
                     userId: user._id,
                     token: jwt.sign( // la fonction sign de jsonwebtoken est utilisée pour encoder un nouveau token
-                        { userId: user._id}, // ce token contient l'ID de l'utilisateur en tant que payload (les données encodées dans le token)
+                        { userId: user._id }, // ce token contient l'ID de l'utilisateur en tant que payload (les données encodées dans le token)
                         'RANDOM_TOKEN_SECRET', // une chaîne secrète de développement temporaire RANDOM_TOKEN_SECRET est utilisée pour encoder notre token
-                        { expiresIn: '24h'}) // la durée de validité du token est définit à 24 heures. L'utilisateur devra donc se reconnecter au bout de 24 heures
+                        { expiresIn: '24h' }) // la durée de validité du token est définit à 24 heures. L'utilisateur devra donc se reconnecter au bout de 24 heures
                     })
                 })
             .catch(error => res.status(500).json({ error }));
